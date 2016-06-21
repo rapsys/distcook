@@ -1,0 +1,2 @@
+Edit configuration in config/ to suite your needs.
+Make sure you have copied ihttpd-*.${ARCH}.rpm in current directory starting cooking.
