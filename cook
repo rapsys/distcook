@@ -1,0 +1,26 @@
+#! /bin/sh -xe
+
+# Export safe locale
+export LC_ALL=C
+
+# Extract configuration
+echo '#! /bin/sh -e' > lib/config.sh
+cat config/*.conf | perl -pne 'undef $_ if /^#/; s/^/export /' >> lib/config.sh
+
+# Source config
+. lib/config.sh
+
+# Configure urpmi
+#. lib/urpmi.sh
+
+# Install rpm
+. lib/install.sh
+
+# Setup urpmi
+. lib/setup.sh
+
+# Fix various patterns
+. lib/pattern.sh
+
+# Export config
+. lib/export.sh
