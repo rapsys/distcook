@@ -5,7 +5,7 @@ export LC_ALL=C
 
 # Extract configuration
 echo '#! /bin/sh -e' > lib/config.sh
-cat config/*.conf | perl -pne 'undef $_ if /^#/; s/^/export /' >> lib/config.sh
+cat config/*.conf | perl -pne 'if (/^#/) {undef $_;} else {s/^/export /;}' >> lib/config.sh
 
 # Source config
 . lib/config.sh
