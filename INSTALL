@@ -1,2 +1,3 @@
 Edit configuration in config/ to suite your needs.
 Make sure you have copied ihttpd-*.${ARCH}.rpm in current directory starting cooking.
+If cooking worked you will get a root directory containing prepared distribution and root.config containing the final configuration.
