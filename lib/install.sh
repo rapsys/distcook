@@ -115,4 +115,6 @@ if [ ! -z "$LOCALE_ALT" -a "$LOCALE_ALT" != 'en' ]; then
 fi
 
 # Install ihttpd
-LC_ALL=C urpmi --no-verify-rpm --no-recommends --noclean --auto --root=$PWD/root ${IHTTPD_RPM}
+if [ ! -z "${IHTTPD_RPM}" -a -f "${IHTTPD_RPM}" ]; then
+	LC_ALL=C urpmi --no-verify-rpm --no-recommends --noclean --auto --root=$PWD/root ${IHTTPD_RPM}
+fi
