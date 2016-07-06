@@ -40,6 +40,7 @@ LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --aut
 	acpi \
 	acpid \
 	bash-completion \
+	bc \
 	bind \
 	bind-utils \
 	binutils \
@@ -52,12 +53,13 @@ LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --aut
 	dosfstools \
 	gdb \
 	gdisk \
-	mageia-gfxboot-theme \
 	git \
 	git-prompt \
 	git-svn \
 	gnupg \
 	gnupg2 \
+	groff \
+	hddtemp \
 	hdparm \
 	info \
 	kernel-firmware \
@@ -70,6 +72,7 @@ LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --aut
 	lsof \
 	luit \
 	lynx \
+	mageia-gfxboot-theme \
 	man \
 	man-pages \
 	mdadm \
@@ -89,6 +92,7 @@ LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --aut
 	postfix \
 	rsnapshot \
 	rsync \
+	screen \
 	sectool \
 	shorewall \
 	shorewall-ipv6 \
