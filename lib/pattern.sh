@@ -89,7 +89,7 @@ UUID=${BOOTUUID}	/boot	ext3	defaults,noatime 1 2
 UUID=${SLASHUUID}	/	btrfs	defaults,relatime 1 1
 UUID=${SWAPAUUID}	none	swap	sw 0 0
 UUID=${SWAPBUUID}	none	swap	sw 0 0
-UUID=${DATAUUID}	/media	btrfs	defaults,relatime,nofail 1 2
+UUID=${DATAUUID}	${DATAPATH}	btrfs	defaults,relatime,nofail 1 2
 proc						/proc	proc	defaults 0 0
 EOF
 
