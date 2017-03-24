@@ -83,23 +83,19 @@ EOF
 fi
 
 #Fstab
-#XXX: grub-legacy don't support ext4 and xfs V5 file format for /boot
 cat << EOF > "$PWD/root/etc/fstab"
 UUID=${BOOTUUID}	/boot	ext3	defaults,noatime 1 2
-UUID=${SLASHUUID}	/	btrfs	defaults,relatime 1 1
+UUID=${DATAUUID}	/	btrfs	subvol=/slash,defaults,relatime 1 1
 UUID=${SWAPAUUID}	none	swap	sw 0 0
 UUID=${SWAPBUUID}	none	swap	sw 0 0
-UUID=${DATAUUID}	${DATAPATH}	btrfs	defaults,relatime,nofail 1 2
+UUID=${DATAUUID}	/home	btrfs	subvol=/home,defaults,relatime 1 1
 proc						/proc	proc	defaults 0 0
 EOF
 
-# Copy grub files
-cp -f $PWD/root/lib/grub/${ARCH}-mageia/{e2fs_stage1_5,stage{1,2}} $PWD/root/boot/grub/
-
 #Crypttab
+#XXX: Don't forget to add option nofail,noauto for every devices requiring manual unlocking
 cat << EOF > "$PWD/root/etc/crypttab"
-${SLASHNAME}	UUID=${LUKSSLASHUUID}
-${DATANAME}	UUID=${LUKSDATAUUID}	-	nofail,noauto
+${DATANAME}	UUID=${LUKSDATAUUID}
 EOF
 
 #Set resolv.conf
@@ -120,30 +116,8 @@ echo -n "$ROOTPASS" | chroot $PWD/root passwd root --stdin
 chroot $PWD/root adduser -m "$USERLOGIN"
 echo -n "$USERPASS" | chroot $PWD/root passwd "$USERLOGIN" --stdin
 
-#Grub file
-cat << EOF > $PWD/root/boot/grub/menu.lst
-timeout 5
-color black/cyan yellow/cyan
-gfxmenu (hd0,0)/gfxmenu
-default 0
-
-title linux
-root (hd0,0)
-kernel /vmlinuz-server BOOT_IMAGE=linux root=UUID=$SLASHUUID PROFILE=default splash=verbose vga=793
-initrd /initrd-server.img
-
-title failsafe
-root (hd0,0)
-kernel /vmlinuz-server BOOT_IMAGE=failsafe root=UUID=$SLASHUUID rd.luks.uuid=$LUKSSLASHUUID failsafe
-initrd /initrd-server.img
-EOF
-#Update grub fx menu
-chroot $PWD/root grub-gfxmenu --lang fr --update-theme --update-gfxmenu
-
-#Grub device.map
-cat << EOF > $PWD/root/boot/grub/device.map
-(hd0)	/dev/sda
-EOF
+# Fix grub config
+perl -pne 's/^GRUB_TIMEOUT=[0-9]+$/GRUB_TIMEOUT=1/' -i $PWD/root/etc/default/grub
 
 #Shorewall
 cat << EOF >> $PWD/root/etc/shorewall/zones

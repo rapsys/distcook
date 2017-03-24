@@ -29,7 +29,7 @@ fi
 mkdir -p "$PWD/root"
 
 # Install base config
-LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --auto --root=$PWD/root filesystem basesystem-minimal rpm urpmi grub kernel-server-latest vim-enhanced wget
+LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --auto --root=$PWD/root filesystem basesystem-minimal rpm urpmi grub2 grub2-mageia-theme kernel-server-latest vim-enhanced wget
 
 # Reinstall lockdev to fix missing lock group on binary
 LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --auto --replacepkgs --replacefiles --root=$PWD/root lockdev
@@ -106,6 +106,10 @@ LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --aut
 	xauth \
 	xfsprogs \
 	zip
+
+#XXX: to avoid boot time warning
+#	drakx-kbd-mouse-x11 \
+#	polkit-agent-none \
 
 # Install locale
 if [ ! -z "$LOCALE_ALT" -a "$LOCALE_ALT" != 'en' ]; then
