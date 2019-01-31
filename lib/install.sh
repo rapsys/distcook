@@ -29,12 +29,13 @@ fi
 mkdir -p "$PWD/root"
 
 # Install base config
-LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --auto --root=$PWD/root filesystem basesystem-minimal rpm urpmi grub2 grub2-mageia-theme kernel-server-latest vim-enhanced wget
+LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --auto --root=$PWD/root filesystem basesystem-minimal rpm urpmi grub2 grub2-mageia-theme kernel-server-latest vim-enhanced wget lockdev
 
 # Reinstall lockdev to fix missing lock group on binary
 LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --auto --replacepkgs --replacefiles --root=$PWD/root lockdev
 
 # Install remaining
+# --skip lib64gdbm4
 LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --auto --root=$PWD/root \
 	acl \
 	acpi \
@@ -50,6 +51,7 @@ LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --aut
 	cryptsetup \
 	deltarpm \
 	dhcp-client \
+	dmsetup \
 	dosfstools \
 	gdb \
 	gdisk \
