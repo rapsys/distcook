@@ -82,13 +82,21 @@ DHCP=yes
 EOF
 fi
 
+#Mysql
+mkdir -p "$PWD/root/var/lib/mysql"
+
+#Mail
+mkdir -p "$PWD/root/var/spool/mail"
+
 #Fstab
 cat << EOF > "$PWD/root/etc/fstab"
-UUID=${BOOTUUID}	/boot	ext3	defaults,noatime 1 2
-UUID=${DATAUUID}	/	btrfs	subvol=/slash,defaults,relatime 1 1
-UUID=${SWAPAUUID}	none	swap	sw 0 0
-UUID=${SWAPBUUID}	none	swap	sw 0 0
-UUID=${DATAUUID}	/home	btrfs	subvol=/home,defaults,relatime 1 1
+UUID=${BOOTUUID}	/boot		ext3	defaults,noatime 1 2
+UUID=${DATAUUID}	/		btrfs	subvol=/slash,defaults,relatime 1 1
+UUID=${SWAPAUUID}	none		swap	sw 0 0
+UUID=${SWAPBUUID}	none		swap	sw 0 0
+UUID=${DATAUUID}	/home		btrfs	subvol=/home,defaults,relatime 1 1
+UUID=${DATAUUID}	/var/lib/mysql	btrfs	subvol=/mysql,defaults,relatime 1 1
+UUID=${DATAUUID}	/var/spool/mail	btrfs	subvol=/mail,defaults,relatime 1 1
 proc						/proc	proc	defaults 0 0
 EOF
 
@@ -229,6 +237,9 @@ if [ -e "$HOME/.ssh/id_rsa.pub" ]; then
 fi
 
 #TODO ntp /etc/systemd/timesyncd.conf
+
+# Force enable systemd-networkd.service
+chroot "$PWD/root" /usr/bin/systemctl enable systemd-networkd.service
 
 # Cleanup tmp and run
 rm -fr $PWD/root/tmp/* $PWD/root/run/*
