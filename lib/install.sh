@@ -95,7 +95,6 @@ LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --aut
 	rsnapshot \
 	rsync \
 	screen \
-	sectool \
 	shorewall \
 	shorewall-ipv6 \
 	smartmontools \
