@@ -241,5 +241,8 @@ fi
 # Force enable systemd-networkd.service
 chroot "$PWD/root" /usr/bin/systemctl enable systemd-networkd.service
 
+# Force enable systemd-resolved.service
+chroot "$PWD/root" /usr/bin/systemctl enable systemd-resolved.service
+
 # Cleanup tmp and run
 rm -fr $PWD/root/tmp/* $PWD/root/run/*
