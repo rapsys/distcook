@@ -229,11 +229,29 @@ chroot "$PWD/root" /usr/sbin/sshd-keygen
 #XXX: forced because msec decides otherwise
 perl -pne 's%^PermitRootLogin .*%PermitRootLogin yes%' -i "$PWD/root/etc/ssh/sshd_config"
 
-# Add rsa key if available
-#XXX: dsa is unsupported anymore
-if [ -e "$HOME/.ssh/id_rsa.pub" ]; then
-	[ ! -d "$PWD/root/root/.ssh" ] && mkdir -m 0700 "$PWD/root/root/.ssh"
-	cp -f "$HOME/.ssh/id_rsa.pub" "$PWD/root/root/.ssh/authorized_keys"
+# Prevent btmp warning
+cat << EOF > "$PWD/root/etc/tmpfiles.d/var.conf"
+# See tmpfiles.d(5) for details
+
+# Prevent msec warning about enforcing permissions
+f /var/log/btmp 0600 root utmp -
+EOF
+
+# Authorized keys
+if [ -e "$HOME/.ssh/id_rsa.pub" -o -e "$HOME/.ssh/id_ed25519.pub" ]; then
+	mkdir -m 0700 "$PWD/root/root/.ssh"
+	touch "$PWD/root/root/.ssh/authorized_keys"
+	chmod u=rw,go=r "$PWD/root/root/.ssh/authorized_keys"
+
+	# Add rsa key if available
+	if [ -e "$HOME/.ssh/id_rsa.pub" ]; then
+		cat "$HOME/.ssh/id_rsa.pub" >> "$PWD/root/root/.ssh/authorized_keys"
+	fi
+
+	# Add ed25519 key if available
+	if [ -e "$HOME/.ssh/id_ed25519.pub" ]; then
+		cat "$HOME/.ssh/id_ed25519.pub" >> "$PWD/root/root/.ssh/authorized_keys"
+	fi
 fi
 
 #TODO ntp /etc/systemd/timesyncd.conf
