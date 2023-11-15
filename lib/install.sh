@@ -80,7 +80,7 @@ LC_ALL=C urpmi --downloader=wget --no-verify-rpm --no-recommends --noclean --aut
 	mdadm \
 	microcode \
 	mirrordir \
-	mlocate \
+	plocate \
 	msec \
 	nail \
 	ntfs-3g \
