@@ -4,7 +4,8 @@
 perl -pne 's%(?:(COMP_CONFIGURE_HINTS|COMP_TAR_INTERNAL_PATHS)=1?)%${1}=1%' -i "$PWD/root/etc/sysconfig/bash-completion"
 
 #Disable gpg agent
-perl -pne 's%(?:(START_GPGAGENT|START_GPGAGENT_SH)=(?:"?(no|yes)"?)?)%${1}="no"%' -i "$PWD/root/etc/sysconfig/gnupg2"
+#XXX: moved to a user systemd service
+#perl -pne 's%(?:(START_GPGAGENT|START_GPGAGENT_SH)=(?:"?(no|yes)"?)?)%${1}="no"%' -i "$PWD/root/etc/sysconfig/gnupg2"
 
 #Locale config
 cat << EOF > "$PWD/root/etc/vconsole.conf"
