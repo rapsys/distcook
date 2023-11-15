@@ -11,7 +11,7 @@ cat config/*.conf | perl -pne 'if (/^#/) {undef $_;} else {s/^/export /;}' >> li
 . lib/config.sh
 
 # Configure urpmi
-#. lib/urpmi.sh
+. lib/urpmi.sh
 
 # Install rpm
 . lib/install.sh
