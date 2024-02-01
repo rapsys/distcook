@@ -1,5 +1,6 @@
 root
 root.conf
+root.mount
 root.tar.xz
 lib/config.sh
 ihttpd-*.rpm
